@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:george_flutter/model/model_favorite.dart';
+import 'package:george_flutter/screen/route_paths.dart';
 import 'package:george_flutter/util/view/price.dart';
 import 'package:george_flutter/util/view/rating.dart';
 import 'package:rxdart/rxdart.dart';
@@ -31,14 +32,17 @@ class FavoriteItemRow extends StatelessWidget {
                 child: Column(
                   children: <Widget>[
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushNamed(
+                            context, ScreenPath.place_detail_screen,
+                            arguments: _favoriteItem);
+                      },
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Row(
                             children: <Widget>[
-                              Container(
-                                width: 300,
+                              Flexible(
                                 child: Text(
                                   _favoriteItem.displayName,
                                   style: TextStyle(
@@ -56,8 +60,8 @@ class FavoriteItemRow extends StatelessWidget {
                           Row(
                             children: <Widget>[
                               Text(
-                                  "${_favoriteItem.rating.toDouble().toString()}  "),
-                              RatingWidget(_favoriteItem.rating),
+                                  "${_favoriteItem.rating == null ? "0.0" : _favoriteItem.rating.toDouble().toString()}  "),
+                              RatingWidget(_favoriteItem.rating == null ? 0 : _favoriteItem.rating),
                               PriceWidget(_favoriteItem.priceLevel),
                             ],
                           ),
@@ -66,8 +70,7 @@ class FavoriteItemRow extends StatelessWidget {
                           ),
                           Row(
                             children: <Widget>[
-                              Container(
-                                width: 300,
+                              Flexible(
                                 child: Text(
                                   (_favoriteItem.address == null
                                       ? ""
